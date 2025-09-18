@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,6 +10,19 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
+        }
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -28,7 +41,7 @@
             Calculate Zodiac
         </button>
 
-        <div id="result" class="mt-8 text-xl font-semibold text-gray-800 transition-opacity duration-500 opacity-0">
+        <div id="result" class="mt-8 text-xl font-semibold text-gray-800 hidden">
             <!-- Result will be displayed here -->
         </div>
 
@@ -41,18 +54,18 @@
     <script>
         // Data for Chinese zodiac animals, descriptions, elements, and Yin/Yang.
         const zodiacData = [
-            { animal: "Rat", emoji: "🐀", description: "Quick-witted, resourceful, charming, and intelligent." },
-            { animal: "Ox", emoji: "🐂", description: "Hardworking, patient, reliable, and strong." },
-            { animal: "Tiger", emoji: "🐅", description: "Courageous, confident, charismatic, and unpredictable." },
-            { animal: "Rabbit", emoji: "🐇", description: "Gentle, elegant, kind, and responsible." },
-            { animal: "Dragon", emoji: "🐉", description: "Ambitious, powerful, charismatic, and passionate." },
-            { animal: "Snake", emoji: "🐍", description: "Intelligent, wise, mysterious, and graceful." },
-            { animal: "Horse", emoji: "🐎", description: "Energetic, active, intelligent, and independent." },
-            { animal: "Goat", emoji: "🐐", description: "Calm, gentle, sympathetic, and creative." },
-            { animal: "Monkey", emoji: "🐒", description: "Smart, clever, curious, and playful." },
-            { animal: "Rooster", emoji: "🐓", description: "Observant, hardworking, courageous, and proud." },
-            { animal: "Dog", emoji: "🐕", description: "Loyal, honest, courageous, and friendly." },
-            { animal: "Pig", emoji: "🐖", description: "Compassionate, generous, diligent, and easy-going." }
+            { animal: "Rat", emoji: "🐀", description: "Quick-witted, resourceful, charming, and intelligent.", funFact: "Rats are known for being quick-witted and smart. They are often seen as a symbol of wealth and abundance in Chinese culture." },
+            { animal: "Ox", emoji: "🐂", description: "Hardworking, patient, reliable, and strong.", funFact: "The Ox is a symbol of strength and determination. They are known for their reliability and patience." },
+            { animal: "Tiger", emoji: "🐅", description: "Courageous, confident, charismatic, and unpredictable.", funFact: "Tigers are courageous and confident leaders. They are respected for their bravery and passion." },
+            { animal: "Rabbit", emoji: "🐇", description: "Gentle, elegant, kind, and responsible.", funFact: "The Rabbit is a symbol of elegance and peace. They are known for their gentle and kind nature." },
+            { animal: "Dragon", emoji: "🐉", description: "Ambitious, powerful, charismatic, and passionate.", funFact: "Dragons are the most powerful and revered of the zodiac signs. They symbolize good fortune and are seen as charismatic leaders." },
+            { animal: "Snake", emoji: "🐍", description: "Intelligent, wise, mysterious, and graceful.", funFact: "The Snake is known for its intelligence and intuition. They are wise and often have a calm, graceful demeanor." },
+            { animal: "Horse", emoji: "🐎", description: "Energetic, active, intelligent, and independent.", funFact: "Horses are energetic and free-spirited. They love adventure and are known for their independence." },
+            { animal: "Goat", emoji: "🐐", description: "Calm, gentle, sympathetic, and creative.", funFact: "Goats are known for their calm and gentle nature. They are also highly creative and artistic." },
+            { animal: "Monkey", emoji: "🐒", description: "Smart, clever, curious, and playful.", funFact: "Monkeys are the tricksters of the zodiac. They are intelligent, witty, and have a playful nature." },
+            { animal: "Rooster", emoji: "🐓", description: "Observant, hardworking, courageous, and proud.", funFact: "Roosters are known for their punctuality and hard work. They are confident and have a great sense of style." },
+            { animal: "Dog", emoji: "🐕", description: "Loyal, honest, courageous, and friendly.", funFact: "Dogs are symbols of loyalty and honesty. They are known for their unwavering friendship and protective nature." },
+            { animal: "Pig", emoji: "🐖", description: "Compassionate, generous, diligent, and easy-going.", funFact: "Pigs are known for their kindness and generosity. They are hard-working and enjoy the simple pleasures of life." }
         ];
 
         function calculateZodiac() {
@@ -62,7 +75,7 @@
             const year = parseInt(birthYearInput.value);
 
             // Hide previous results and messages
-            resultDiv.classList.add('opacity-0');
+            resultDiv.classList.add('hidden');
             messageDiv.classList.add('hidden');
 
             // Simple validation
@@ -96,6 +109,7 @@
                         <span class="text-6xl mb-4">${animalData.emoji}</span>
                         <span class="text-3xl font-bold text-blue-600">${animalData.animal}</span>
                         <p class="mt-4 text-gray-700 text-base italic text-center">${animalData.description}</p>
+                        <p class="mt-2 text-gray-700 text-sm text-center">${animalData.funFact}</p>
                         <div class="grid grid-cols-2 gap-4 mt-4 text-left w-full max-w-xs">
                             <div class="text-gray-800">
                                 <span class="font-bold">Element:</span> <span class="text-blue-600 font-medium">${element}</span>
@@ -104,10 +118,25 @@
                                 <span class="font-bold">Yin/Yang:</span> <span class="text-blue-600 font-medium">${yinYang}</span>
                             </div>
                         </div>
+                        <button onclick="resetApp()" class="mt-6 w-full bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-md transition duration-300 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+                            Reset
+                        </button>
                     </div>
                 `;
-                resultDiv.classList.remove('opacity-0');
+                resultDiv.classList.remove('hidden');
+                resultDiv.classList.add('fade-in-up');
             }, 300);
+        }
+
+        function resetApp() {
+            const birthYearInput = document.getElementById('birthYear');
+            const resultDiv = document.getElementById('result');
+            const messageDiv = document.getElementById('message');
+
+            birthYearInput.value = '';
+            resultDiv.classList.add('hidden');
+            resultDiv.classList.remove('fade-in-up');
+            messageDiv.classList.add('hidden');
         }
     </script>
 
