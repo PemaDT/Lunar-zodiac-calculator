@@ -39,23 +39,20 @@
     </div>
 
     <script>
-        // Array of Chinese zodiac animals
-        const zodiacAnimals = ["Rat", "Ox", "Tiger", "Rabbit", "Dragon", "Snake", "Horse", "Goat", "Monkey", "Rooster", "Dog", "Pig"];
-
-        // An array of emoji corresponding to each zodiac animal.
-        const zodiacEmojis = [
-            "🐀", // Rat
-            "🐂", // Ox
-            "🐅", // Tiger
-            "🐇", // Rabbit
-            "🐉", // Dragon
-            "🐍", // Snake
-            "🐎", // Horse
-            "🐐", // Goat
-            "🐒", // Monkey
-            "🐓", // Rooster
-            "🐕", // Dog
-            "🐖"  // Pig
+        // Data for Chinese zodiac animals, descriptions, elements, and Yin/Yang.
+        const zodiacData = [
+            { animal: "Rat", emoji: "🐀", description: "Quick-witted, resourceful, charming, and intelligent." },
+            { animal: "Ox", emoji: "🐂", description: "Hardworking, patient, reliable, and strong." },
+            { animal: "Tiger", emoji: "🐅", description: "Courageous, confident, charismatic, and unpredictable." },
+            { animal: "Rabbit", emoji: "🐇", description: "Gentle, elegant, kind, and responsible." },
+            { animal: "Dragon", emoji: "🐉", description: "Ambitious, powerful, charismatic, and passionate." },
+            { animal: "Snake", emoji: "🐍", description: "Intelligent, wise, mysterious, and graceful." },
+            { animal: "Horse", emoji: "🐎", description: "Energetic, active, intelligent, and independent." },
+            { animal: "Goat", emoji: "🐐", description: "Calm, gentle, sympathetic, and creative." },
+            { animal: "Monkey", emoji: "🐒", description: "Smart, clever, curious, and playful." },
+            { animal: "Rooster", emoji: "🐓", description: "Observant, hardworking, courageous, and proud." },
+            { animal: "Dog", emoji: "🐕", description: "Loyal, honest, courageous, and friendly." },
+            { animal: "Pig", emoji: "🐖", description: "Compassionate, generous, diligent, and easy-going." }
         ];
 
         function calculateZodiac() {
@@ -79,14 +76,34 @@
             // The year 1900 was the year of the Rat.
             // The formula is (year - 4) % 12, as the Rat is the first animal and the cycle started in a year ending in 4.
             const index = (year - 4) % 12;
-            const animal = zodiacAnimals[index];
-            const emoji = zodiacEmojis[index];
+            const animalData = zodiacData[index];
+
+            // Determine the element based on the last digit of the year
+            const lastDigit = year % 10;
+            let element = "";
+            if (lastDigit === 0 || lastDigit === 1) element = "Metal";
+            else if (lastDigit === 2 || lastDigit === 3) element = "Water";
+            else if (lastDigit === 4 || lastDigit === 5) element = "Wood";
+            else if (lastDigit === 6 || lastDigit === 7) element = "Fire";
+            else if (lastDigit === 8 || lastDigit === 9) element = "Earth";
+
+            // Determine Yin or Yang
+            const yinYang = year % 2 === 0 ? "Yin" : "Yang";
 
             setTimeout(() => {
                 resultDiv.innerHTML = `
                     <div class="flex flex-col items-center">
-                        <span class="text-6xl mb-4">${emoji}</span>
-                        <span class="text-3xl font-bold text-blue-600">${animal}</span>
+                        <span class="text-6xl mb-4">${animalData.emoji}</span>
+                        <span class="text-3xl font-bold text-blue-600">${animalData.animal}</span>
+                        <p class="mt-4 text-gray-700 text-base italic text-center">${animalData.description}</p>
+                        <div class="grid grid-cols-2 gap-4 mt-4 text-left w-full max-w-xs">
+                            <div class="text-gray-800">
+                                <span class="font-bold">Element:</span> <span class="text-blue-600 font-medium">${element}</span>
+                            </div>
+                            <div class="text-gray-800">
+                                <span class="font-bold">Yin/Yang:</span> <span class="text-blue-600 font-medium">${yinYang}</span>
+                            </div>
+                        </div>
                     </div>
                 `;
                 resultDiv.classList.remove('opacity-0');
