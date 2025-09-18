@@ -1,7 +1,7 @@
-# Chinese Zodiac Calculator
+# Lunar Zodiac Calculator
 
-A simple, single-page web application to find your Chinese zodiac animal.
-This project is a straightforward HTML file that calculates the Chinese zodiac animal associated with a given birth year. It's designed to be a lightweight, shareable tool that works entirely in the browser.
+A simple, single-page web application to find your Lunar zodiac animal.
+This project is a straightforward HTML file that calculates the Lunar zodiac animal associated with a given birth year. It's designed to be a lightweight, shareable tool that works entirely in the browser.
 
 ## Features
 
