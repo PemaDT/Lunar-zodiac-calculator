@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Zodiac Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-xl text-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Find Your Zodiac Animal</h1>
+        <p class="text-gray-600 mb-6">Enter your birth year to discover your Chinese zodiac animal.</p>
+
+        <div class="mb-6">
+            <label for="birthYear" class="block text-gray-700 font-medium mb-2">Enter Year:</label>
+            <input type="number" id="birthYear" placeholder="e.g., 1990" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center text-lg">
+        </div>
+
+        <button onclick="calculateZodiac()" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-md transition duration-300 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            Calculate Zodiac
+        </button>
+
+        <div id="result" class="mt-8 text-xl font-semibold text-gray-800 transition-opacity duration-500 opacity-0">
+            <!-- Result will be displayed here -->
+        </div>
+
+        <div id="message" class="mt-4 text-red-500 font-medium hidden">
+            <!-- Error messages will be displayed here -->
+        </div>
+
+    </div>
+
+    <script>
+        // Array of Chinese zodiac animals
+        const zodiacAnimals = ["Rat", "Ox", "Tiger", "Rabbit", "Dragon", "Snake", "Horse", "Goat", "Monkey", "Rooster", "Dog", "Pig"];
+
+        function calculateZodiac() {
+            const birthYearInput = document.getElementById('birthYear');
+            const resultDiv = document.getElementById('result');
+            const messageDiv = document.getElementById('message');
+            const year = parseInt(birthYearInput.value);
+
+            // Hide previous results and messages
+            resultDiv.classList.add('opacity-0');
+            messageDiv.classList.add('hidden');
+
+            // Simple validation
+            if (isNaN(year) || year < 1) {
+                messageDiv.textContent = "Please enter a valid year.";
+                messageDiv.classList.remove('hidden');
+                return;
+            }
+
+            // The Chinese zodiac cycle is based on a 12-year cycle.
+            // The year 1900 was the year of the Rat.
+            // The formula is (year - 4) % 12, as the Rat is the first animal and the cycle started in a year ending in 4.
+            const index = (year - 4) % 12;
+            const animal = zodiacAnimals[index];
+
+            setTimeout(() => {
+                resultDiv.innerHTML = `Your zodiac animal is the <span class="text-blue-600">${animal}</span>.`;
+                resultDiv.classList.remove('opacity-0');
+            }, 300);
+        }
+    </script>
+
+</body>
+</html>
