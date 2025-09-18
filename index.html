@@ -9,7 +9,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
+            transition: background-color 0.3s ease;
         }
         .fade-in-up {
             animation: fadeInUp 0.5s ease-out forwards;
@@ -26,23 +26,35 @@
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-4">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <!-- Mode Toggle Button -->
+    <div class="absolute top-4 right-4">
+        <button onclick="toggleTheme()" class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-2 rounded-full shadow-lg focus:outline-none transition-colors duration-300">
+            <svg id="sun-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+            <svg id="moon-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+        </button>
+    </div>
 
     <!-- Calculator Section -->
-    <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-xl text-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-4">Find Your Zodiac Animal</h1>
-        <p class="text-gray-600 mb-6">Enter your birth year to discover your Chinese zodiac animal.</p>
+    <div class="w-full max-w-md p-8 bg-white dark:bg-gray-800 rounded-lg shadow-xl text-center mb-8 transition-colors duration-300">
+        <h1 class="text-3xl font-bold mb-4">Find Your Zodiac Animal</h1>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">Enter your birth year to discover your Chinese zodiac animal.</p>
 
         <div class="mb-6">
-            <label for="birthYear" class="block text-gray-700 font-medium mb-2">Enter Year:</label>
-            <input type="number" id="birthYear" placeholder="e.g., 1990" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center text-lg">
+            <label for="birthYear" class="block font-medium mb-2">Enter Year:</label>
+            <input type="number" id="birthYear" placeholder="e.g., 1990" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center text-lg bg-white dark:bg-gray-700 transition-colors duration-300">
         </div>
 
         <button onclick="calculateZodiac()" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-md transition duration-300 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
             Calculate Zodiac
         </button>
 
-        <div id="result" class="mt-8 text-xl font-semibold text-gray-800 hidden">
+        <div id="result" class="mt-8 text-xl font-semibold hidden">
             <!-- Result will be displayed here -->
         </div>
 
@@ -52,8 +64,8 @@
     </div>
 
     <!-- Zodiac Gallery Section -->
-    <div class="w-full max-w-5xl p-8 bg-white rounded-lg shadow-xl text-center">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">All Zodiac Animals</h2>
+    <div class="w-full max-w-5xl p-8 bg-white dark:bg-gray-800 rounded-lg shadow-xl text-center transition-colors duration-300">
+        <h2 class="text-2xl font-bold mb-6">All Zodiac Animals</h2>
         <div id="zodiacGallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             <!-- Zodiac cards will be dynamically added here -->
         </div>
@@ -76,10 +88,49 @@
             { animal: "Pig", emoji: "🐖", description: "Compassionate, generous, diligent, and easy-going.", funFact: "Pigs are known for their kindness and generosity. They are hard-working and enjoy the simple pleasures of life." }
         ];
 
+        // Function to render the result in the calculator section
+        function renderResult(animalData, year) {
+            const resultDiv = document.getElementById('result');
+            
+            // Determine the element based on the last digit of the year
+            const lastDigit = year % 10;
+            let element = "";
+            if (lastDigit === 0 || lastDigit === 1) element = "Metal";
+            else if (lastDigit === 2 || lastDigit === 3) element = "Water";
+            else if (lastDigit === 4 || lastDigit === 5) element = "Wood";
+            else if (lastDigit === 6 || lastDigit === 7) element = "Fire";
+            else if (lastDigit === 8 || lastDigit === 9) element = "Earth";
+
+            // Determine Yin or Yang
+            const yinYang = year % 2 === 0 ? "Yin" : "Yang";
+            
+            resultDiv.innerHTML = `
+                <div class="flex flex-col items-center">
+                    <span class="text-6xl mb-4">${animalData.emoji}</span>
+                    <span class="text-3xl font-bold text-blue-600">${animalData.animal}</span>
+                    <p class="mt-4 text-gray-700 dark:text-gray-400 text-base italic text-center">${animalData.description}</p>
+                    <p class="mt-2 text-gray-700 dark:text-gray-400 text-sm text-center">${animalData.funFact}</p>
+                    <div class="grid grid-cols-2 gap-4 mt-4 text-left w-full max-w-xs">
+                        <div class="text-gray-800 dark:text-gray-200">
+                            <span class="font-bold">Element:</span> <span class="text-blue-600 font-medium">${element}</span>
+                        </div>
+                        <div class="text-gray-800 dark:text-gray-200">
+                            <span class="font-bold">Yin/Yang:</span> <span class="text-blue-600 font-medium">${yinYang}</span>
+                        </div>
+                    </div>
+                    <button onclick="resetApp()" class="mt-6 w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded-md transition duration-300 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+                        Reset
+                    </button>
+                </div>
+            `;
+            resultDiv.classList.remove('hidden');
+            resultDiv.classList.add('fade-in-up');
+        }
+
         function calculateZodiac() {
             const birthYearInput = document.getElementById('birthYear');
-            const resultDiv = document.getElementById('result');
             const messageDiv = document.getElementById('message');
+            const resultDiv = document.getElementById('result');
             const year = parseInt(birthYearInput.value);
 
             // Hide previous results and messages
@@ -99,40 +150,28 @@
             const index = (year - 4) % 12;
             const animalData = zodiacData[index];
 
-            // Determine the element based on the last digit of the year
-            const lastDigit = year % 10;
-            let element = "";
-            if (lastDigit === 0 || lastDigit === 1) element = "Metal";
-            else if (lastDigit === 2 || lastDigit === 3) element = "Water";
-            else if (lastDigit === 4 || lastDigit === 5) element = "Wood";
-            else if (lastDigit === 6 || lastDigit === 7) element = "Fire";
-            else if (lastDigit === 8 || lastDigit === 9) element = "Earth";
+            setTimeout(() => {
+                renderResult(animalData, year);
+            }, 300);
+        }
 
-            // Determine Yin or Yang
-            const yinYang = year % 2 === 0 ? "Yin" : "Yang";
+        function displaySelectedZodiac(index) {
+            const birthYearInput = document.getElementById('birthYear');
+            const messageDiv = document.getElementById('message');
+            const resultDiv = document.getElementById('result');
+
+            // Find a representative year for the selected animal
+            const year = 1900 + index;
+            birthYearInput.value = year;
+
+            // Hide previous results and messages
+            resultDiv.classList.add('hidden');
+            messageDiv.classList.add('hidden');
+
+            const animalData = zodiacData[index];
 
             setTimeout(() => {
-                resultDiv.innerHTML = `
-                    <div class="flex flex-col items-center">
-                        <span class="text-6xl mb-4">${animalData.emoji}</span>
-                        <span class="text-3xl font-bold text-blue-600">${animalData.animal}</span>
-                        <p class="mt-4 text-gray-700 text-base italic text-center">${animalData.description}</p>
-                        <p class="mt-2 text-gray-700 text-sm text-center">${animalData.funFact}</p>
-                        <div class="grid grid-cols-2 gap-4 mt-4 text-left w-full max-w-xs">
-                            <div class="text-gray-800">
-                                <span class="font-bold">Element:</span> <span class="text-blue-600 font-medium">${element}</span>
-                            </div>
-                            <div class="text-gray-800">
-                                <span class="font-bold">Yin/Yang:</span> <span class="text-blue-600 font-medium">${yinYang}</span>
-                            </div>
-                        </div>
-                        <button onclick="resetApp()" class="mt-6 w-full bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-md transition duration-300 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
-                            Reset
-                        </button>
-                    </div>
-                `;
-                resultDiv.classList.remove('hidden');
-                resultDiv.classList.add('fade-in-up');
+                renderResult(animalData, year);
             }, 300);
         }
 
@@ -152,20 +191,43 @@
             const galleryDiv = document.getElementById('zodiacGallery');
             galleryDiv.innerHTML = ''; // Clear existing content
 
-            zodiacData.forEach(item => {
+            zodiacData.forEach((item, index) => {
                 const card = document.createElement('div');
-                card.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-md', 'flex', 'flex-col', 'items-center', 'text-center');
+                card.classList.add('bg-white', 'dark:bg-gray-700', 'p-4', 'rounded-lg', 'shadow-md', 'flex', 'flex-col', 'items-center', 'text-center', 'cursor-pointer', 'hover:shadow-lg', 'transition-shadow', 'duration-300', 'transition-colors', 'duration-300');
                 card.innerHTML = `
                     <span class="text-5xl mb-2">${item.emoji}</span>
                     <span class="font-bold text-lg">${item.animal}</span>
-                    <p class="text-sm text-gray-600 mt-1">${item.description}</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">${item.description}</p>
                 `;
+                card.onclick = () => displaySelectedZodiac(index);
                 galleryDiv.appendChild(card);
             });
         }
         
-        // Call the function when the page loads
-        window.onload = displayZodiacGallery;
+        // Dark Mode Logic
+        const toggleTheme = () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateIcon();
+        };
+
+        const updateIcon = () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            document.getElementById('sun-icon').classList.toggle('hidden', isDark);
+            document.getElementById('moon-icon').classList.toggle('hidden', !isDark);
+        };
+
+        // On page load, apply the saved theme and display the gallery
+        window.onload = () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            updateIcon();
+            displayZodiacGallery();
+        };
     </script>
 
 </body>
