@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,9 +26,10 @@
         }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
 
-    <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-xl text-center">
+    <!-- Calculator Section -->
+    <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-xl text-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800 mb-4">Find Your Zodiac Animal</h1>
         <p class="text-gray-600 mb-6">Enter your birth year to discover your Chinese zodiac animal.</p>
 
@@ -48,7 +49,14 @@
         <div id="message" class="mt-4 text-red-500 font-medium hidden">
             <!-- Error messages will be displayed here -->
         </div>
+    </div>
 
+    <!-- Zodiac Gallery Section -->
+    <div class="w-full max-w-5xl p-8 bg-white rounded-lg shadow-xl text-center">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">All Zodiac Animals</h2>
+        <div id="zodiacGallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            <!-- Zodiac cards will be dynamically added here -->
+        </div>
     </div>
 
     <script>
@@ -138,6 +146,26 @@
             resultDiv.classList.remove('fade-in-up');
             messageDiv.classList.add('hidden');
         }
+
+        // Function to dynamically display all zodiac animals on page load
+        function displayZodiacGallery() {
+            const galleryDiv = document.getElementById('zodiacGallery');
+            galleryDiv.innerHTML = ''; // Clear existing content
+
+            zodiacData.forEach(item => {
+                const card = document.createElement('div');
+                card.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-md', 'flex', 'flex-col', 'items-center', 'text-center');
+                card.innerHTML = `
+                    <span class="text-5xl mb-2">${item.emoji}</span>
+                    <span class="font-bold text-lg">${item.animal}</span>
+                    <p class="text-sm text-gray-600 mt-1">${item.description}</p>
+                `;
+                galleryDiv.appendChild(card);
+            });
+        }
+        
+        // Call the function when the page loads
+        window.onload = displayZodiacGallery;
     </script>
 
 </body>
