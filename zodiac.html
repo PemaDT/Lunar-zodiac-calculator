@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -42,6 +42,22 @@
         // Array of Chinese zodiac animals
         const zodiacAnimals = ["Rat", "Ox", "Tiger", "Rabbit", "Dragon", "Snake", "Horse", "Goat", "Monkey", "Rooster", "Dog", "Pig"];
 
+        // An array of emoji corresponding to each zodiac animal.
+        const zodiacEmojis = [
+            "🐀", // Rat
+            "🐂", // Ox
+            "🐅", // Tiger
+            "🐇", // Rabbit
+            "🐉", // Dragon
+            "🐍", // Snake
+            "🐎", // Horse
+            "🐐", // Goat
+            "🐒", // Monkey
+            "🐓", // Rooster
+            "🐕", // Dog
+            "🐖"  // Pig
+        ];
+
         function calculateZodiac() {
             const birthYearInput = document.getElementById('birthYear');
             const resultDiv = document.getElementById('result');
@@ -64,9 +80,15 @@
             // The formula is (year - 4) % 12, as the Rat is the first animal and the cycle started in a year ending in 4.
             const index = (year - 4) % 12;
             const animal = zodiacAnimals[index];
+            const emoji = zodiacEmojis[index];
 
             setTimeout(() => {
-                resultDiv.innerHTML = `Your zodiac animal is the <span class="text-blue-600">${animal}</span>.`;
+                resultDiv.innerHTML = `
+                    <div class="flex flex-col items-center">
+                        <span class="text-6xl mb-4">${emoji}</span>
+                        <span class="text-3xl font-bold text-blue-600">${animal}</span>
+                    </div>
+                `;
                 resultDiv.classList.remove('opacity-0');
             }, 300);
         }
