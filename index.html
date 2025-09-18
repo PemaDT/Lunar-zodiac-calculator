@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chinese Zodiac Calculator</title>
+    <title>Lunar Zodiac Calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
@@ -48,7 +48,7 @@
     <!-- Calculator Section -->
     <div class="w-full max-w-md p-8 bg-white/80 dark:bg-gray-800/80 rounded-lg shadow-xl text-center mb-8 transition-colors duration-300 backdrop-blur-sm">
         <h1 class="text-3xl font-bold mb-4">Find Your Zodiac Animal</h1>
-        <p class="text-gray-600 dark:text-gray-400 mb-6">Enter your birth year to discover your Chinese zodiac animal.</p>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">Enter your birth year to discover your Lunar zodiac animal.</p>
 
         <div class="mb-6">
             <label for="birthYear" class="block font-medium mb-2">Enter Year:</label>
@@ -79,7 +79,7 @@
     <script>
         // Data for Chinese zodiac animals, descriptions, elements, and Yin/Yang.
         const zodiacData = [
-            { animal: "Rat", emoji: "🐀", description: "Quick-witted, resourceful, charming, and intelligent.", funFact: "Rats are known for being quick-witted and smart. They are often seen as a symbol of wealth and abundance in Chinese culture." },
+            { animal: "Rat", emoji: "🐀", description: "Quick-witted, resourceful, charming, and intelligent.", funFact: "Rats are known for being quick-witted and smart. They are often seen as a symbol of wealth and abundance in Lunar culture." },
             { animal: "Ox", emoji: "🐂", description: "Hardworking, patient, reliable, and strong.", funFact: "The Ox is a symbol of strength and determination. They are known for their reliability and patience." },
             { animal: "Tiger", emoji: "🐅", description: "Courageous, confident, charismatic, and unpredictable.", funFact: "Tigers are courageous and confident leaders. They are respected for their bravery and passion." },
             { animal: "Rabbit", emoji: "🐇", description: "Gentle, elegant, kind, and responsible.", funFact: "The Rabbit is a symbol of elegance and peace. They are known for their gentle and kind nature." },
@@ -157,7 +157,7 @@
                 return;
             }
 
-            // The Chinese zodiac cycle is based on a 12-year cycle.
+            // The Lunar zodiac cycle is based on a 12-year cycle.
             // The year 1900 was the year of the Rat.
             // The formula is (year - 4) % 12, as the Rat is the first animal and the cycle started in a year ending in 4.
             const index = (year - 4) % 12;
